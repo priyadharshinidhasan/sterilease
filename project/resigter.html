@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SterilEase - Sign In / Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module">
+        // Import the Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAqanNAhFmVshEKQzVl7rkThnoM4qb0HYM", 
+            authDomain: "sterilease-final.firebaseapp.com",
+            projectId: "sterilease-final",
+            storageBucket: "sterilease-final.appspot.com",
+            messagingSenderId: "507190375283",
+            appId: "1:507190375283:web:f11bafcb0811493ba30b06",
+            measurementId: "G-9K1JX76C27"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Sign-up form submission
+        document.addEventListener("DOMContentLoaded", () => {
+            const signUpForm = document.getElementById("signupForm");
+            const signInForm = document.getElementById("signinForm");
+
+            // Handle sign-up
+            signUpForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const email = document.getElementById("emailSignup").value;
+                const password = document.getElementById("passwordSignup").value;
+
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                 
+                    console.log("User Created:", userCredential.user);
+                    window.location.href = "index.html"; // Redirect to the dashboard
+                } catch (error) {
+                    console.error("Error signing up:", error.message);
+                    alert(error.message);
+                }
+            });
+
+            // Handle sign-in
+            signInForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+
+                try {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+                    console.log("User Signed In:", userCredential.user);
+                    window.location.href = "index.html"; // Redirect to the dashboard
+                } catch (error) {
+                    console.error("Error signing in:", error.message);
+                    alert(error.message);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Image Section -->
+        <div class="image-container">
+            <img src="assests/sterilease.jpeg" alt="SterilEase Logo" />
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-container">
+            <h1 class="heading" id="formTitle">Sign In</h1>
+            
+            <!-- Sign-In Form -->
+            <form id="signinForm" class="form active">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                
+                <button type="submit">Login</button>
+                <p>Don't have an account? <span class="toggle-link" onclick="toggleForm()">Register</span></p>
+            </form>
+            
+            <style>
+                /* Modal overlay background */
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                    display: none;
+                }
+        
+                /* Modal content box */
+                .modal-content {
+                    background-color: white;
+                    padding: 20px;
+                    width: 400px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                    text-align: center;
+                    position: relative;
+                }
+        
+                /* Modal header */
+                .modal-content h3 {
+                    margin-top: 0;
+                    color: #052f5f;
+                    font-size: 22px;
+                }
+        
+                /* Input box */
+                .modal-content input {
+                    width: 100%;
+                    padding: 10px;
+                    margin: 15px 0;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 16px;
+                }
+        
+                /* Submit button */
+                .modal-content button {
+                    background-color: #052f5f;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                }
+        
+                .modal-content button:hover {
+                    background-color: #03416a;
+                }
+        
+                /* Close button */
+                .modal-close {
+                    position: absolute;
+                    top: 15px;
+                    right: 20px;
+                    font-size: 20px;
+                    color: #666;
+                    cursor: pointer;
+                }
+        
+                .modal-close:hover {
+                    color: #000;
+                }
+            </style>
+        </head>
+        <body>
+            <!-- Forgot Password Link -->
+            <div>
+                <p>
+                    <a href="#" onclick="openModal()" style="color: #052f5f; text-decoration: none; font-weight: bold;">Forgot Password?</a>
+                </p>
+            </div>
+        
+            <!-- Modal Structure -->
+            <div id="modal" class="modal-overlay">
+                <div class="modal-content">
+                    <span class="modal-close" onclick="closeModal()">&times;</span>
+                    <h3>Password Recovery</h3>
+                    <p>Enter your registered email address to receive a recovery link.</p>
+                    <div>
+                        <input type="email" id="emailInput" placeholder="Email Address" />
+                    </div>
+                    <div>
+                        <button onclick="submitEmail()">Send Recovery Link</button>
+                    </div>
+                </div>
+            </div>
+        
+            <script>
+                // Open the modal
+                function openModal() {
+                    document.getElementById("modal").style.display = "flex";
+                }
+        
+                // Close the modal
+                function closeModal() {
+                    document.getElementById("modal").style.display = "none";
+                }
+        
+                // Handle email submission
+                function submitEmail() {
+                    const emailInput = document.getElementById("emailInput").value.trim();
+                    if (emailInput) {
+                        alert(`Recovery link has been sent to ${emailInput}. Please check your inbox.`);
+                        closeModal(); // Close the modal after submission
+                    } else {
+                        alert("Please enter a valid email address.");
+                    }
+                }
+            </script>
+            <!-- Sign-Up Form -->
+            <form id="signupForm" class="form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                
+                <label for="emailSignup">Email:</label>
+                <input type="email" id="emailSignup" name="email" placeholder="Enter your email" required>
+                
+                <label for="passwordSignup">Password:</label>
+                <input type="password" id="passwordSignup" name="password" placeholder="Enter your password" required>
+                
+                <button type="submit">Register</button>
+                <p>Already have an account? <span class="toggle-link" onclick="toggleForm()">Login</span></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between Sign-In and Sign-Up forms
+        function toggleForm() {
+            const signInForm = document.getElementById('signinForm');
+            const signUpForm = document.getElementById('signupForm');
+            const formTitle = document.getElementById('formTitle');
+
+            signInForm.classList.toggle('active');
+            signUpForm.classList.toggle('active');
+
+            formTitle.textContent = signInForm.classList.contains('active') ? 'Sign In' : 'Register';
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #0867d490, #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .main-container {
+            display: flex;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 90%;
+            gap: 20px;
+        }
+
+        .image-container {
+            flex: 1;
+        }
+
+        .image-container img {
+            width: 100%;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .form-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .heading {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #004085;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 300px;
+            display: none;
+            flex-direction: column;
+        }
+
+        form.active {
+            display: flex;
+        }
+
+        label {
+            text-align: left;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .toggle-link {
+            color: #007BFF;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .toggle-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</body>
+</html>

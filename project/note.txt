@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SterilEase Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+             
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+     
+        
+        .header {
+            background-color: #052f5f;
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header .username {
+
+            font-size: 18px;
+            font-weight: bold;
+        }
+       
+        .container {
+            margin-left: 12%;
+            padding: 20px;
+            width: 84%;
+            margin-top: auto;
+        }
+        h2 {
+            text-align: center;
+            color: #052f5f;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border: 4px solid #052f5f;
+            padding: 5px;
+            background-color: #f1f1f1;
+        }
+        .chart-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        .chart-box {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+        .chart-box canvas {
+            width: 100%;
+        }
+        .chart-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .chart-controls button {
+            padding: 5px 10px;
+            font-size: 14px;
+            margin: 0 5px;
+            border: 1px solid #052f5f;
+            background-color: #fff;
+            color: #052f5f;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .chart-controls button:hover {
+            background-color: #052f5f;
+            color: #fff;
+        }
+        .chart-box2 {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+        .chart-box2 canvas {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+       
+    </div>
+    <footer>
+        <div class="footer-container">
+            <a href="#">@2024 SterilEase Dashboard  |</a>
+            <a href="#home">Home  |</a>
+            <a href="#contact">Contact  |</a>
+            <a href="#about">About  |</a>
+            <a href="#privacy">Privacy Policy  |</a>
+        </div>
+    </footer>
+
+    <label>
+        <input type="checkbox">
+        <div class="toggle">
+            <span class="top_line common"></span>
+            <span class="middle_line common"></span>
+            <span class="bottom_line common"></span>
+        </div>
+            <div class="slide">
+                <h3>MENU</h3>
+                 <ul>
+                    <li><a href="#"><i class="fas fa-tv"></i>Dashboard</li>
+                    <li><a href="#"><i class="far fa-user"></i>profile</li>
+                    <li><a href="#"><i class="fab fa-gripfire"></i>about</li>
+                    <li onclick="openModal()"><a href="#"><i class="far fa-comments"></i>analyze</li>
+                    <li onclick="logout()"><a href="#"><i class="fas fa-cogs"></i>logout</li>
+                 </ul>
+            </div>
+        </label>
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+        *{
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: sans-serif;
+        }
+        body{
+            background-color: rgb(231, 233, 238);
+        }
+        .slide{
+            height: 100%;
+            width: 180px;
+            position: absolute;
+            background-color: #052f5f;
+            transition: 0.5s ease;
+            transform: translateX(-180px);
+        }
+        h3{
+            color:rgb(228, 228, 242);
+            font-weight:800 ;
+            text-align: right;
+            padding: 10px 0;
+            padding-right: 50px;
+            pointer-events: none;
+        }
+        ul li{
+            list-style: none;
+        }
+        ul li a{
+            color: rgb(229, 222, 222);
+            font-weight: 500;
+            padding: 5px 0;
+            display: block;
+            text-transform: capitalize;
+            text-decoration: none;
+            transform: 0.2s ease-bout;
+        }
+        ul li:hover a{
+            color: rgb(23, 5, 138);
+            background-color: rgb(236, 236, 236);
+        }
+        ul li a i{
+            width: 40px;
+            text-align: center;
+        }
+
+        input{
+            display: none;
+            visibility: hidden;
+            -webkit-appearance: none;
+        }
+        .toggle{
+            position: absolute;
+            height: 30px;
+            width: 30px;
+            top: 20px;
+            left: 15px;
+            z-index: 1;
+            cursor: pointer;
+            border-radius: 2px;
+            background-color: #052f5f;
+            box-shadow: 0 0 0px black;
+        }
+        .toggle .common{
+            position: absolute;
+            height: 2px;
+            width: 20px;
+            background-color: white;
+            border-radius: 50px;
+            transition: 0.3s ease;
+        }
+        .toggle .top_line{
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .toggle .middle_line{
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .toggle .bottom_line{
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        input:checked ~ .toggle .top_line{
+            left: 2px;
+            top: 14px;
+            width: 25px;
+            transform: rotate(45deg);
+        }
+        input:checked ~ .toggle .bottom_line{
+            left: 2px;
+            top: 14px;
+            width: 25px;
+            transform: rotate(-45deg);
+        }
+        input:checked ~ .toggle .middle_line{
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        input:checked ~ .slide{
+            transform: translateX(0);
+            box-shadow: 0 0 15px black;
+        }
+    </style>
+
+    <script>
+        function logout() {
+            // Redirect to the login page
+            window.location.href = 'signin.html';
+        }
+    </script>
+    <!-- Modal for Analyze -->
+    <div id="analyzeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Analyze and Visualize Your Data</h2>
+            <p>Welcome to the Analyze section of SterilEase. This page is designed to help you visualize and monitor data related to water usage and power consumption over time. By leveraging interactive graphs, you can track patterns and trends, ensuring efficient management of these vital resources.</p>
+            <p>Use the provided charts to gain insights into resource usage and make informed decisions to optimize operations, reduce waste, and promote sustainability. These tools empower you to take control of your resource management with clarity and precision.</p>
+        </div>
+    </div>
+    <style>
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 10px;
+        }
+        
+        .modal-content h2 {
+            color: #052f5f;
+            text-align: center;
+        }
+        .modal-content ul {
+            list-style-type: disc;
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .modal-content .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .modal-content .close:hover,
+        .modal-content .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+        
+        footer {
+            background-color: #052f5f;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .footer-container a {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer-container a:hover {
+            text-decoration: underline;
+            color: #d1ecf1;
+        }
+    </style> 
+    <script>
+        function openModal() {
+            document.getElementById('analyzeModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('analyzeModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside the content
+        window.onclick = function(event) {
+            const modal = document.getElementById('analyzeModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+    
+    <div class="container">
+        <h2>SterilEase </h2>
+        <div class="chart-container">
+            <div class="chart-box">
+                <h3>Flushes Monitoring</h3>
+                <canvas id="flushesBarChart"></canvas>
+                <div class="chart-controls">
+                    <button onclick="updateChart('flushesBarChart', 'week')">Week</button>
+                    <button onclick="updateChart('flushesBarChart', 'month')">Month</button>
+                    <button onclick="updateChart('flushesBarChart', 'year')">Year ```html
+                    </button>
+                </div>
+            </div>
+            <div class="chart-box">
+                <h3>Water Usage</h3>
+                <canvas id="waterLineChart"></canvas>
+                <div class="chart-controls">
+                    <button onclick="updateChart('waterLineChart', 'week')">Week</button>
+                    <button onclick="updateChart('waterLineChart', 'month')">Month</button>
+                    <button onclick="updateChart('waterLineChart', 'year')">Year</button>
+                </div>
+            </div>
+            <div class="chart-box">
+                <h3>Power Consumption</h3>
+                <canvas id="powerLineChart"></canvas>
+                <div class="chart-controls">
+                    <button onclick="updateChart('powerLineChart', 'week')">Week</button>
+                    <button onclick="updateChart('powerLineChart', 'month')">Month</button>
+                    <button onclick="updateChart('powerLineChart', 'year')">Year</button>
+                </div>
+            </div>
+            <div class="chart-box2">
+                <h3>Septic Tank</h3>
+                <canvas id="resourcePieChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Maintenance Risk Levels</h3>
+                <canvas id="maintenanceRiskChart"></canvas>
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.side-menu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        const chartData = {
+            week: { 
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], 
+                flushes: [5, 10, 15, 20, 25, 30, 35], 
+                water: [20, 40, 60, 80, 100, 120, 140], 
+                power: [2, 4, 6, 8, 10, 12, 14] 
+            },
+            month: { 
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], 
+                flushes: [100, 150, 200, 250], 
+                water: [500, 600, 700, 800], 
+                power: [50, 60, 70, 80] 
+            },
+            year: { 
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 
+                flushes: [1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300], 
+                water: [6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000], 
+                power: [600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700] 
+            }
+        };
+
+        function createChart(chartId, type, dataset) {
+            return new Chart(document.getElementById(chartId), {
+                type,
+                data: { 
+                    labels: chartData.week.labels, 
+                    datasets: [{ 
+                        label: dataset.label, 
+                        data: chartData.week[dataset.data], 
+                        backgroundColor: dataset.bgColor, 
+                        borderColor: dataset.borderColor, 
+                        borderWidth: 1 
+                    }] 
+                },
+                options: { 
+                    responsive: true, 
+                    scales: { 
+                        y: { beginAtZero: true } 
+                    } 
+                }
+            });
+        }
+
+        const flushesBarChart = createChart('flushesBarChart', 'bar', { 
+            label: 'Flushes', 
+            data: 'flushes', 
+            bgColor: 'rgba(54, 162, 235, 0.2)', 
+            borderColor: 'rgba(54, 162, 235, 1)' 
+        });
+        const waterLineChart = createChart('waterLineChart', 'line', { 
+            label: 'Water Usage', 
+            data: 'water', 
+            bgColor: 'rgba(75, 192, 192, 0.2)', 
+            borderColor: 'rgba(75, 192, 192, 1)' 
+        });
+        const powerLineChart = createChart('powerLineChart', 'line', { 
+            label: 'Power Usage', 
+            data: 'power', 
+            bgColor: 'rgba(153, 102, 255, 0.2)', 
+            borderColor: 'rgba(153, 102, 255, 1)' 
+        });
+
+        const resourcePieChart = new Chart(document.getElementById('resourcePieChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Empty', 'Full'],
+                datasets: [{
+                    data: [35, 45],
+                    backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                    borderColor: ['rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)']
+                }]
+            },
+            options: { responsive: true }
+        });
+
+        function updateChart(chartId, period) {
+            const chart = Chart.getChart(chartId);
+            const datasetIndex = 0;
+            chart.data.labels = chartData[period].labels;
+            chart.data.datasets[datasetIndex].data = chartData[period][chart.data.datasets[datasetIndex].label.toLowerCase()];
+            chart.update();
+        }
+
+        // Define maintenance levels data
+        const maintenanceLevels = {
+            labels: ['Low', 'Medium', 'High'],
+            datasets: [{
+                label: 'Maintenance Risk Levels',
+                data: [20, 50, 30],
+                backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1
+            }]
+        };
+
+        // Create Maintenance Levels Bar Chart
+        const maintenanceBarChart = new Chart(document.getElementById('maintenanceRiskChart'), {
+            type: 'bar', // Using a bar chart to differentiate the levels clearly
+            data: maintenanceLevels,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100 // Optional: Set max to 100 if values are percentages
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.label}: ${tooltipItem.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

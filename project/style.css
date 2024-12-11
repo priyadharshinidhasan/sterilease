@@ -1,0 +1,259 @@
+/* General link styles */
+a {
+    color: inherit; /* Ensures the link inherits the text color */
+    text-decoration: none; /* Removes the underline */
+}
+
+a:visited {
+    color: inherit; /* Prevents color change for visited links */
+}
+
+a:hover {
+    color: #030303; /* Optional: Change color on hover for a better UX */
+}
+
+a:active {
+    color: hsl(0, 0%, 0%); /* Optional: Define color when the link is active */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+*{
+    margin: 0;
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: sans-serif;
+}
+body{
+    background-color: rgb(231, 233, 238);
+}
+.slide{
+    height: 180%;
+    width: 180px;
+    position: absolute;
+    background-color: #052f5f;
+    transition: 0.5s ease;
+    transform: translateX(-180px);
+}
+h3{
+    color:rgb(228, 228, 242);
+    font-weight:800 ;
+    text-align: right;
+    padding: 10px 0;
+    padding-right: 50px;
+    pointer-events: none;
+}
+ul li{
+    color: rgb(229, 222, 222);
+    list-style: none;
+}
+
+ul li a{
+    color: rgb(229, 222, 222);
+    font-weight: 500;
+    padding: 5px 0;
+    display: block;
+    text-transform: capitalize;
+    text-decoration: none;
+    transform: 0.2s ease-bout;
+}
+
+ul li:hover a{
+    color: rgb(23, 5, 138);
+    background-color: rgb(236, 236, 236);
+}
+
+ul li a i{
+    width: 40px;
+    text-align: center;
+}
+
+input{
+    display: none;
+    visibility: hidden;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.toggle{
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    top: 20px;
+    left: 15px;
+    z-index: 1;
+    cursor: pointer;
+    border-radius: 2px;
+    background-color: #052f5f;
+    
+}
+
+.toggle .common{
+    position: absolute;
+    height: 2px;
+    width: 20px;
+    background-color: white;
+    border-radius: 50px;
+    transition: 0.3s ease;
+}
+
+.toggle .top_line{
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.toggle .middle_line{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.toggle .bottom_line{
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+input:checked ~ .toggle .top_line{
+    left: 2px;
+    top: 14px;
+    width: 25px;
+    transform: rotate(45deg);
+}
+input:checked ~ .toggle .bottom_line{
+    left: 2px;
+    top: 14px;
+    width: 25px;
+    transform: rotate(-45deg);
+}
+input:checked ~ .toggle .middle_line{
+    opacity: 0;
+    transform: translateX(20px);
+}
+input:checked ~ .slide{
+    transform: translateX(0);
+    
+}
+body {
+             
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+}
+
+
+.header {
+    background-color: #052f5f;
+    color: white;
+    padding: 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+.container {
+    margin-left: 12%;
+    padding: 20px;
+    width: 84%;
+    margin-top: auto;
+}
+h2 {
+    text-align: center;
+    color: #052f5f;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    border: 4px solid #052f5f;
+    padding: 5px;
+    background-color: #f1f1f1;
+    border-radius: 20px;
+}
+
+ /* Responsive Design */
+ @media (max-width: 768px) {
+     .chart-box1,
+     .chart-box2 {
+         padding: 10px;
+     }
+ }
+ .modal {
+     display: none; /* Hidden by default */
+     position: fixed;
+     z-index: 1;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     overflow: auto;
+     background-color: rgba(0, 0, 0, 0.4);
+ }
+ 
+ .modal-content {
+     background-color: white;
+     margin: 15% auto;
+     padding: 20px;
+     border: 1px solid #888;
+     width: 50%;
+     border-radius: 10px;
+ }
+ 
+ .modal-content h2 {
+     color: #052f5f;
+     text-align: center;
+ }
+ .modal-content ul {
+     list-style-type: disc;
+     margin: 10px 0;
+     padding-left: 20px;
+ }
+ 
+ .modal-content .close {
+     color: #aaa;
+     float: right;
+     font-size: 28px;
+     font-weight: bold;
+     cursor: pointer;
+ }
+ 
+ .modal-content .close:hover,
+ .modal-content .close:focus {
+     color: black;
+     text-decoration: none;
+ }
+
+footer {
+    background-color: #052f5f;
+    color: white;
+    padding: 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.footer-container a {
+    margin: 0 px;
+    border-left-style: 0;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    bottom: 0;
+    width: 100%;
+}
+.footer-container a:hover {
+    text-decoration: underline;
+    color: #d1ecf1;
+    width: 100%;
+}
+
+h4 {
+    margin-bottom: 10px;
+    font-size: 18px; /* Adjust the size */
+    font-weight: bold; /* Make it bold */
+    color: #333; /* Dark gray for readability */
+    text-align: center; /* Center the text */
+    margin: 10px 0; /* Add space around */
+    text-transform: uppercase; /* Make text uppercase */
+    letter-spacing: 1px; /* Add spacing between letters // Optional: underline effect */
+    padding-bottom: 5px; /* Space below text */
+    }
+    
+
+

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Page - BLDC Motor & Sensors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #052f5f;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-card {
+            background-color: #e3f2fd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .status-card .status {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .status-card .error {
+            color: red;
+        }
+
+        .btn {
+            background-color: #052f5f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #052f5f;
+        }
+
+        .log-section {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .log-entry {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Maintenance Page - BLDC Motor & Sensors</h1>
+</header>
+
+<div class="container">
+    
+    <!-- BLDC Motor Status -->
+    <div class="status-card" id="bldc-motor-status">
+        <div>
+            <h3>BLDC Motor Status</h3>
+            <p class="status">Status: <span id="motor-status">Loading...</span></p>
+            <p class="status">Temperature: <span id="motor-temp">Loading...</span></p>
+        </div>
+        <button class="btn" id="motor-reset">Reset Motor</button>
+    </div>
+
+    <!-- Sensor Status -->
+    <div class="status-card" id="sensor-status">
+        <div>
+            <h3>Sensor Status</h3>
+            <p class="status">Water Flow Sensor: <span id="water-flow-status">Loading...</span></p>
+            <p class="status">Pressure Sensor: <span id="pressure-status">Loading...</span></p>
+            <p class="status">Touch Sensor: <span id="touch-status">Loading...</span></p>
+        </div>
+        <button class="btn" id="sensor-calibrate">Calibrate Sensors</button>
+    </div>
+
+    <!-- Maintenance Logs -->
+    <div class="log-section" id="maintenance-logs">
+        <h3>Maintenance Logs</h3>
+        <div id="logs">
+            <div class="log-entry">Loading logs...</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Simulating real-time data from Firebase or server
+        const motorStatusEl = document.getElementById('motor-status');
+        const motorTempEl = document.getElementById('motor-temp');
+        const waterFlowStatusEl = document.getElementById('water-flow-status');
+        const pressureStatusEl = document.getElementById('pressure-status');
+        const touchStatusEl = document.getElementById('touch-status');
+        const logsContainer = document.getElementById('logs');
+
+        function updateStatus() {
+            // Simulate getting data from Firebase
+            motorStatusEl.textContent = 'Operational';
+            motorTempEl.textContent = '45°C'; // Unicode for degree symbol
+            waterFlowStatusEl.textContent = 'Normal';
+            pressureStatusEl.textContent = 'Optimal';
+            touchStatusEl.textContent = 'Functional';
+        }
+
+        function updateLogs() {
+            const logs = [
+                'BLDC Motor Reset at 10:45 AM',
+                'Sensors Calibrated at 9:30 AM',
+                'Error Detected in Pressure Sensor at 8:15 AM',
+            ];
+
+            logsContainer.innerHTML = logs.map(log => <div class="log-entry">${log}</div>).join('');
+        }
+
+        // Simulate real-time data updates every 5 seconds
+        setInterval(updateStatus, 5000);
+        setInterval(updateLogs, 10000);
+
+        document.getElementById('motor-reset').addEventListener('click', () => {
+            alert('BLDC Motor is resetting...');
+            motorStatusEl.textContent = 'Resetting...';
+            setTimeout(() => motorStatusEl.textContent = 'Operational', 3000);
+        });
+
+        document.getElementById('sensor-calibrate').addEventListener('click', () => {
+            alert('Calibrating sensors...');
+            waterFlowStatusEl.textContent = 'Calibrating...';
+            pressureStatusEl.textContent = 'Calibrating...';
+            touchStatusEl.textContent = 'Calibrating...';
+            setTimeout(() => {
+                waterFlowStatusEl.textContent = 'Normal';
+                pressureStatusEl.textContent = 'Optimal';
+                touchStatusEl.textContent = 'Functional';
+            }, 3000);
+        });
+
+        // Initial load of data
+        updateStatus();
+        updateLogs();
+    });
+</script>
+
+</body>
+</html>
